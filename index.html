@@ -13,31 +13,31 @@
     }
 
     #game {
-      width: 90%;
-      max-width: 400px;
-      height: 600px;
+      width: 95vw;
+      height: 70vh;
       margin: 20px auto;
       position: relative;
       background: #fff8f0;
       border-radius: 20px;
       box-shadow: 0 0 20px #d8b4a0;
       display: none;
+      overflow: hidden;
     }
 
     #bear {
       position: absolute;
-      bottom: 55px;
+      bottom: 10%;
       left: 50%;
       transform: translateX(-50%);
-      width: 25%;
-      max-width: 150px;
+      width: 20vw;
+      max-width: 120px;
       transition: left 0.1s;
     }
 
     .heart {
       position: absolute;
-      width: 8%;
-      max-width: 32px;
+      width: 8vw;
+      max-width: 40px;
       top: 0;
     }
 
@@ -48,14 +48,14 @@
     }
 
     #winner {
-      font-size: 2rem;
+      font-size: 1.5rem;
       color: #d72660;
-      margin-top: 50px;
+      margin-top: 20px;
       display: none;
     }
 
     #enter {
-      margin-top: 100px;
+      margin-top: 40px;
       padding: 12px 30px;
       font-size: 1.2rem;
       background: #b76e79;
@@ -66,7 +66,7 @@
     }
 
     #controls {
-      margin: 20px auto;
+      margin: 10px auto;
       display: flex;
       justify-content: center;
       gap: 20px;
@@ -74,8 +74,10 @@
 
     .arrow {
       font-size: 1.5rem;
-      width: 50px;
-      height: 50px;
+      width: 15vw;
+      height: 15vw;
+      max-width: 70px;
+      max-height: 70px;
       border-radius: 50%;
       border: none;
       background: #b76e79;
@@ -87,20 +89,6 @@
       width: 40%;
       max-width: 200px;
       margin-top: 20px;
-    }
-
-    /* Media query para pantallas pequeñas */
-    @media (max-width: 600px) {
-      #game {
-        height: 400px;
-      }
-      #bear {
-        width: 35%;
-      }
-      .arrow {
-        width: 40px;
-        height: 40px;
-      }
     }
   </style>
 </head>
@@ -134,13 +122,13 @@
 
     enter.onclick = () => { enter.style.display = 'none'; game.style.display = 'block'; start(); };
 
-    // Movimiento continuo con botones
-    leftBtn.onmousedown = () => { movingLeft = true; };
-    leftBtn.onmouseup = () => { movingLeft = false; };
-    rightBtn.onmousedown = () => { movingRight = true; };
-    rightBtn.onmouseup = () => { movingRight = false; };
+    // Movimiento táctil
+    leftBtn.ontouchstart = () => { movingLeft = true; };
+    leftBtn.ontouchend = () => { movingLeft = false; };
+    rightBtn.ontouchstart = () => { movingRight = true; };
+    rightBtn.ontouchend = () => { movingRight = false; };
 
-    // Movimiento con teclado
+    // Movimiento con teclado (PC)
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') movingLeft = true;
       if (e.key === 'ArrowRight') movingRight = true;
@@ -172,7 +160,7 @@
       let h = document.createElement('img');
       h.src = 'https://images.emojiterra.com/google/noto-emoji/animated-emoji/1f493.gif';
       h.className = 'heart';
-      h.style.left = Math.floor(Math.random() * (game.offsetWidth - 32)) + 'px';
+      h.style.left = Math.floor(Math.random() * (game.offsetWidth - 40)) + 'px';
       h.style.top = '0px';
       game.appendChild(h);
       hearts.push(h);
