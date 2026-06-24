@@ -2,103 +2,124 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Osito y Corazones</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego del Osito</title>
   <style>
     body {
-      background: linear-gradient(180deg, #ffe4e1, #fff0f5);
-      text-align: center;
+      background: #ffe4e1;
       margin: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: Arial, sans-serif;
+      text-align: center;
     }
+
     #game {
-      width: 400px; height: 600px;
-      margin: 30px auto;
+      width: 90%;
+      max-width: 400px;
+      height: 600px;
+      margin: 20px auto;
       position: relative;
       background: #fff8f0;
       border-radius: 20px;
-      box-shadow: 0 0 25px rgba(183,110,121,0.5);
+      box-shadow: 0 0 20px #d8b4a0;
       display: none;
-      overflow: hidden;
     }
+
     #bear {
       position: absolute;
       bottom: 55px;
-      left: 140px;
-      width: 100px;
-      transition: left 0.1s linear;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 25%;
+      max-width: 150px;
+      transition: left 0.1s;
     }
+
     .heart {
       position: absolute;
-      width: 36px;
+      width: 8%;
+      max-width: 32px;
       top: 0;
     }
+
     #score {
-      font-size: 22px;
+      font-size: 1.2rem;
       color: #b76e79;
-      margin-top: 10px;
-      font-weight: bold;
+      padding: 10px;
     }
+
     #winner {
-      font-size: 28px;
+      font-size: 2rem;
       color: #d72660;
-      margin-top: 150px;
+      margin-top: 50px;
       display: none;
-      animation: fadeIn 2s ease-in-out;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+
     #enter {
-      margin-top: 200px;
-      padding: 16px 40px;
-      font-size: 24px;
+      margin-top: 100px;
+      padding: 12px 30px;
+      font-size: 1.2rem;
       background: #b76e79;
       color: #fff;
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.2s;
     }
-    #enter:hover { transform: scale(1.1); }
+
     #controls {
-      margin: 500px auto 0;
-      width: 160px;
-      position: relative;
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
+
     .arrow {
-      font-size: 30px;
-      width: 50px; height: 50px;
-      margin: 0 10px;
+      font-size: 1.5rem;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       border: none;
       background: #b76e79;
       color: #fff;
       cursor: pointer;
-      transition: background 0.3s;
     }
-    .arrow:hover { background: #d72660; }
+
     #corazon {
-      width: 200px;
-      margin-top: 30px;
+      width: 40%;
+      max-width: 200px;
+      margin-top: 20px;
+    }
+
+    /* Media query para pantallas pequeñas */
+    @media (max-width: 600px) {
+      #game {
+        height: 400px;
+      }
+      #bear {
+        width: 35%;
+      }
+      .arrow {
+        width: 40px;
+        height: 40px;
+      }
     }
   </style>
 </head>
 <body>
-  <button id="enter"> Iniciar Juego </button>
+  <button id="enter">Iniciar Juego</button>
   <div id="game">
     <div id="score">Corazones: 0/10</div>
     <img id="bear" src="https://cdn.pixabay.com/photo/2024/07/01/21/07/teddy-bear-8866107_1280.png" alt="Osito">
     <div id="controls">
-      <button class="arrow" id="left">&#8592;</button>
-      <button class="arrow" id="right">&#8594;</button>
+      <button class="arrow" id="left">←</button>
+      <button class="arrow" id="right">→</button>
     </div>
   </div>
   <div id="winner">
-     Felicidades Amor Mío, Robaste Mi Corazón! ❤️
+    Felicidades Amor Mío, ¡Robaste Mi Corazón! ❤️
     <br>
     <img id="corazon" src="https://encoded.pe/sanvalentin/mocha6final.gif" alt="corazón">
   </div>
+
   <script>
     const enter = document.getElementById('enter'),
           game = document.getElementById('game'),
@@ -108,7 +129,8 @@
           leftBtn = document.getElementById('left'),
           rightBtn = document.getElementById('right');
 
-    let score = 0, bearX = 140, hearts = [], gi, hi, moveInterval, movingLeft = false, movingRight = false;
+    let score = 0, bearX = game.offsetWidth / 2, hearts = [], gi, hi, moveInterval;
+    let movingLeft = false, movingRight = false;
 
     enter.onclick = () => { enter.style.display = 'none'; game.style.display = 'block'; start(); };
 
@@ -118,7 +140,7 @@
     rightBtn.onmousedown = () => { movingRight = true; };
     rightBtn.onmouseup = () => { movingRight = false; };
 
-    // Movimiento continuo con teclado
+    // Movimiento con teclado
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') movingLeft = true;
       if (e.key === 'ArrowRight') movingRight = true;
@@ -130,7 +152,7 @@
 
     function moveBear() {
       if (movingLeft) bearX = Math.max(0, bearX - 5);
-      if (movingRight) bearX = Math.min(300, bearX + 5);
+      if (movingRight) bearX = Math.min(game.offsetWidth - bear.offsetWidth, bearX + 5);
       bear.style.left = bearX + 'px';
     }
 
@@ -138,11 +160,11 @@
       score = 0;
       scoreDiv.textContent = 'Corazones: 0/10';
       winner.style.display = 'none';
-      bearX = 140;
+      bearX = game.offsetWidth / 2;
       bear.style.left = bearX + 'px';
       hearts = [];
       gi = setInterval(update, 30);
-      hi = setInterval(spawn, 1500); // corazones aparecen más espaciados
+      hi = setInterval(spawn, 1500);
       moveInterval = setInterval(moveBear, 30);
     }
 
@@ -150,7 +172,7 @@
       let h = document.createElement('img');
       h.src = 'https://images.emojiterra.com/google/noto-emoji/animated-emoji/1f493.gif';
       h.className = 'heart';
-      h.style.left = Math.floor(Math.random() * 360) + 'px';
+      h.style.left = Math.floor(Math.random() * (game.offsetWidth - 32)) + 'px';
       h.style.top = '0px';
       game.appendChild(h);
       hearts.push(h);
@@ -158,16 +180,11 @@
 
     function update() {
       const bearRect = bear.getBoundingClientRect();
-      const gameRect = game.getBoundingClientRect();
-
       for (let i = hearts.length - 1; i >= 0; i--) {
         let h = hearts[i];
-        let t = (parseInt(h.style.top) || 0) + 5;// velocidad más lenta
+        let t = (parseInt(h.style.top) || 0) + 5;
         h.style.top = t + 'px';
-
         const heartRect = h.getBoundingClientRect();
-
-        // Colisión precisa con el osito
         if (
           heartRect.bottom >= bearRect.top &&
           heartRect.top <= bearRect.bottom &&
@@ -179,7 +196,7 @@
           h.remove();
           hearts.splice(i, 1);
           if (score >= 10) win();
-        } else if (t > 600) {
+        } else if (t > game.offsetHeight) {
           h.remove();
           hearts.splice(i, 1);
         }
