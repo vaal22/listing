@@ -26,7 +26,7 @@
 
     #bear {
       position: absolute;
-      bottom: 10%;
+      bottom: 20%;
       left: 50%;
       transform: translateX(-50%);
       width: 20vw;
@@ -66,10 +66,14 @@
     }
 
     #controls {
-      margin: 10px auto;
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       justify-content: center;
       gap: 20px;
+      width: 100%;
     }
 
     .arrow {
@@ -83,7 +87,6 @@
       background: #b76e79;
       color: #fff;
       cursor: pointer;
-      /* Evita selección y resaltado en móvil */
       -webkit-user-select: none;
       -moz-user-select: none;
       user-select: none;
